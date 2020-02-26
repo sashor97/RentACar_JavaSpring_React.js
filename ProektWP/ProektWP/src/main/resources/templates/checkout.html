@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.springframework.org/schema/jdbc">
+<head>
+    <title>Rent-a-car</title>
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<main>
+    <div class="container">
+
+        <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+            <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+            <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+                <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+                <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+                <form th:action="@{/logout}" method="post" style="display: inline-block">
+                    <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+                </form>
+            </ul>
+
+        </div>
+
+        <form action='/charge' method='POST' id='checkout-form'>
+
+            <input type='hidden' th:value='${amount * 100}' name='amount'/>
+            <h1>Naplata za rezervacija</h1>
+            <h3>Proizvoditel: <span th:text='${proizvoditel}'/></h3>
+            <h3>Model: <span th:text='${name}'/></h3>
+            <h3>Datum od: <span th:text='${datumOd}'/></h3>
+            <h3>Datum do: <span th:text='${datumDo}'/></h3>
+            <h3>Denovi na iznajmuvanje: <span th:text='${denoviIznajmuvanje}'/></h3>
+            <h3>Cena po den: <span th:text='${cenaPoDen}'/></h3>
+            <h2><b>Vkupna cena za naplata: <span th:text='${amount}'/></b></h2>
+            <!-- NOTE: data-key/data-amount/data-currency will be rendered by Thymeleaf -->
+            <script
+                    src='https://checkout.stripe.com/checkout.js'
+                    class='stripe-button'
+                    th:attr='data-key=${stripePublicKey},
+         data-amount=${amount*100},
+         data-currency=${currency}'
+                    data-name='Rent-a-car'
+                    data-description='Payment in Rent-a-car'
+                    data-image
+                            ='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKxR4fxpEHnLNOHSLhCpy7rTt92Dm8AUsrnacbsFlS8htEmg8wIQ'
+                    data-locale='auto'
+                    data-zip-code='false'>
+            </script>
+        </form>
+
+        <a href="http://localhost:8080/thymeleaf/vozilo">Nazad kon vozila</a>
+    </div>
+</main>
+</body>
+</html>

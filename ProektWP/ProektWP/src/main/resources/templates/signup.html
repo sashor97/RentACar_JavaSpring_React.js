@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign up</title>
+	<link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+	<script src="/assets/vendor/jquery/jquery.min.js"></script>
+	<script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+	<script src="/assets/vendor/popper.min.js"></script>
+	<script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+	<div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+		<a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+		<ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+			<li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+			<li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+			<li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+			<li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+			<li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+			<span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+			<form th:action="@{/logout}" method="post" style="display: inline-block">
+				<input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+			</form>
+		</ul>
+
+	</div>
+
+
+	<h1>Sign-up</h1>
+	<div class="col-md-4">
+		<form th:object="${signupform}" th:action="@{/saveuser}" action="#" method="post">
+			<input type="text" th:field="*{username}" class="form-control"
+				placeholder="Username" />
+			<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</p>
+			<div style="clear: both; display: block; height: 10px;"></div>	
+			<input type="password" th:field="*{password}" class="form-control"
+				placeholder="Password" />
+			<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>
+			<div style="clear: both; display: block; height: 10px;"></div>	
+			<input type="password" th:field="*{passwordCheck}" class="form-control"
+				placeholder="Re-enter Password" />
+			<p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">Password Match Error</p>
+			
+			<div style="clear: both; display: block; height: 10px;"></div>	
+			<input type="submit" class="btn btn-primary" value="Save"></input>		
+		</form>
+	</div>
+</body>
+</html>

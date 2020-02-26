@@ -1,0 +1,180 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Rent-a-car</title>
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<main>
+    <div class="container">
+
+        <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+            <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+            <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+                <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+                <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+                <form th:action="@{/logout}" method="post" style="display: inline-block">
+                    <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+                </form>
+            </ul>
+
+        </div>
+
+        <div class="container">
+        <h1>Informacii za voziloto</h1>
+
+            <img th:src="${vozilo.imgUrl}" class="img-responsive" style="width:200px; height:100px">
+
+            <br/>
+            <span>Model: </span>
+            <h5 th:text="${vozilo.model}"></h5>
+
+        <span>Lokacija: </span>
+        <h5 th:text="${vozilo.lokacija}"></h5>
+
+        <span>Cena po den: </span>
+        <h5 th:text="${vozilo.cenaPoDen}"></h5>
+
+        <span>Kategorija: </span>
+            <a th:href="'http://localhost:8080/thymeleaf/kategorija/'+${vozilo.kategorija.id}"><h5 th:text="${vozilo.kategorija.name}"></h5></a>
+
+
+            <span>Proizvoditel: </span>
+            <a th:href="'http://localhost:8080/thymeleaf/proizvoditel/'+${vozilo.proizvoditel.id}"><h5 th:text="${vozilo.proizvoditel.name}"></h5></a>
+
+            <span>Sopstvenik: </span>
+            <a th:href="'http://localhost:8080/thymeleaf/sopstvenik/'+${vozilo.sopstvenik.id}"><h5 th:text="${vozilo.sopstvenik.ime}"></h5></a>
+
+        <hr/> <br/>
+
+        <h1 style="text-align: center">Rezervacii</h1>
+        <br/>
+        <ul class="list-group" th:each="r : ${vozilo.rezervacii}">
+            <li  class="list-group-item list-group-item-default" style="text-align: center">
+                <div style="border:1px solid black; display:inline-block; width:250px; height:571px">
+                    <br/>
+
+                    <span>Uspeshnost: </span>
+                    <h3 th:text="${r.uspeshnost}"></h3>
+
+                    <span>Datum od: </span>
+                    <h3 th:text="${r.datumOd}"></h3>
+
+                    <span>Denovi na iznajmuvanje: </span>
+                    <h3 th:text="${r.denoviIznajmuvanje}"></h3>
+
+                    <span>Datum do: </span>
+                    <h3 th:text="${r.datumDo}"></h3>
+
+                    <span>Vkupna suma: </span>
+                    <h4 th:text="${r.total}"></h4>
+
+                    <span>Od: </span>
+                    <h4 th:text="${r.user.ime}"></h4>
+
+                    <span>Plateno: </span>
+                    <h4 th:text="${r.plateno}"></h4>
+
+
+                    <form sec:authorize="hasAuthority('MANAGER')" th:action="@{/thymeleaf/delete/rezervacija}" th:method="delete">
+                        <input name="rezervacijaId" th:value="${r.id}" type="hidden">
+                        <button sec:authorize="hasAuthority('MANAGER')" class="btn btn-danger">Delete</button>
+                    </form>
+
+
+                    <div th:switch="${r.plateno}">
+                        <div th:case="${false}">
+
+                            <form th:action="@{/checkout/}" th:method="get">
+                                <input name="rezervacijaId" th:value="${r.id}" type="hidden">
+                                <button class="btn btn-primary">Plati</button>
+                            </form>
+
+                        </div>
+                        <span th:case="${true}"></span>
+
+                    </div>
+
+
+
+
+
+                </div>
+            </li>
+
+        </ul>
+
+
+
+            <h1 style="text-align: center">Komentari</h1>
+            <br/>
+            <ul class="list-group" th:each="k : ${vozilo.komentari}">
+                <li  class="list-group-item list-group-item-default" style="text-align: center">
+                    <div style="border:1px solid black; display:inline-block; width:250px; height:325px">
+                        <br/>
+
+                        <span>Komentar: </span>
+                        <h3 th:text="${k.opis}"></h3>
+
+                        <span>Rejting: </span>
+                        <h4 th:text="${k.rejting}"></h4>
+
+                        <span>Od: </span>
+                        <h4 th:text="${k.user.ime}"></h4>
+
+                        <form th:action="@{/thymeleaf/delete/komentar}" th:method="delete">
+                            <input name="komentarId" th:value="${k.id}" type="hidden">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </div>
+                </li>
+
+            </ul>
+
+
+
+
+
+        <div>
+            <br/> <br/>
+        </div>
+
+            <form th:action="@{/thymeleaf/rezervacija/add/}" th:method="get">
+                <input name="voziloId" th:value="${vozilo.id}" type="hidden">
+                <button class="btn btn-success">Rezerviraj</button>
+            </form>
+
+            <a th:href="'http://localhost:8080/thymeleaf/komentar/add/vozilo/'+${vozilo.id}">Dodaj komentar </a>
+
+            <br/> <br/>
+
+        <form th:action="@{/thymeleaf/vozilo}" th:method="get">
+            <button class="btn btn-dark">Nazad kon vozila</button>
+        </form>
+
+    </div>
+    </div>
+</main>
+
+</body>
+</html>

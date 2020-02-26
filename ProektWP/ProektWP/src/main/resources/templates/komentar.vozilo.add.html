@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Rent-a-car</title>
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<main>
+    <div class="container">
+
+        <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+            <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+            <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+                <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+                <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+                <form th:action="@{/logout}" method="post" style="display: inline-block">
+                    <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+                </form>
+            </ul>
+
+        </div>
+
+        <h2 style="text-align: center">Dodaj komentar</h2>
+        <form class="form" method="post" action="/thymeleaf/komentar/add/">
+            <div class="form-group">
+                <label for="opis">Opis: </label>
+                <input id="opis" type="text" class="form-control" name="opis" placeholder="Vnesi komentar" required>
+            </div>
+
+            <div class="form-group">
+                <label for="rejting">Rejting:</label>
+                <input id="rejting" type="number" class="form-control" name="rejting" placeholder="Vnesi rejting" required>
+            </div>
+
+
+            <input name="vozilo" th:value="${voziloId}" type="hidden">
+
+
+            <div class="form-group">
+                <label for="user">Korisnik(User):</label>
+                <select id="user" class="form-control" name="user" required>
+                    <option th:each="u : ${userList}" th:value="${u.id}" th:text="${u.ime}">
+
+                    </option>
+                </select>
+            </div>
+
+
+
+            <button type="submit" class="btn btn-succes">Submit</button>
+        </form>
+    </div>
+</main>
+
+</body>
+</html>

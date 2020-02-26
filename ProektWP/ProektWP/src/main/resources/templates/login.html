@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+            <!-- CSS Global Compulsory -->
+            <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+            <script src="/assets/vendor/jquery/jquery.min.js"></script>
+            <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+            <script src="/assets/vendor/popper.min.js"></script>
+            <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+
+        <title>Login</title>
+    </head>
+    <body>
+
+    <div class="container">
+
+        <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+            <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+            <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+                <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+                <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+                <form th:action="@{/logout}" method="post" style="display: inline-block">
+                    <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+                </form>
+            </ul>
+
+        </div>
+
+    <div class="col-md-4 col-md-offset-4">
+        <div class="alert alert-danger" th:if="${param.error}">
+            Invalid username and password.
+        </div>
+        <div class="alert alert-warning" th:if="${param.logout}">
+            You have been logged out.
+        </div>
+        <form th:action="@{/login}" method="post">
+            <div><label> User Name : <input type="text" name="username" class="form-control"/> </label></div>
+            <div><label> Password: <input type="password" name="password" class="form-control"/> </label></div>
+            <div><input type="submit" value="Sign In" class="btn btn-primary"/></div>
+        </form>
+    	<a th:href="@{/signup}">Sign-up</a>
+    </div>
+    </body>
+</html>

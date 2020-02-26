@@ -1,0 +1,91 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Rent-a-car</title>
+    <!-- CSS Global Compulsory -->
+    <link rel="stylesheet" href="/assets/vendor/bootstrap/bootstrap.min.css">
+    <script src="/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="/assets/vendor/jquery-migrate/jquery-migrate.min.js"></script>
+    <script src="/assets/vendor/popper.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.min.js"></script>
+</head>
+<body>
+<main>
+    <div class="container">
+
+        <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+            <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+            <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+                <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+                <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+                <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+                <form th:action="@{/logout}" method="post" style="display: inline-block">
+                    <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+                </form>
+            </ul>
+
+        </div>
+
+        <h1 style="text-align: center">Vozila</h1>
+        <br/>
+        <div class="container"  style="align-items: center">
+            <div class="container" style="align-items: center; border:1px solid black; display:inline-block; width:250px; height:450px;" th:each="v : ${proizvoditel.vozila}">
+
+                <br/>
+                <img th:src="${v.imgUrl}" class="img-responsive" style="width:200px; height:100px">
+                <span>Model: </span>
+                <h3 th:text="${v.model}"></h3>
+
+                <span>Lokacija: </span>
+                <h4 th:text="${v.lokacija}"></h4>
+
+                <span>Cena: </span>
+                <h4 th:text="${v.cenaPoDen}"></h4>
+
+                <a th:href="'http://localhost:8080/thymeleaf/vozilo/'+${v.id}">Poveke informacii </a>
+
+
+
+                <form th:action="@{/thymeleaf/rezervacija/add/}" th:method="get">
+                    <input name="voziloId" th:value="${v.id}" type="hidden">
+                    <button class="btn btn-success">Rezerviraj</button>
+                </form>
+
+
+                <a th:href="'http://localhost:8080/thymeleaf/komentar/add/vozilo/'+${v.id}">Dodaj komentar </a>
+
+
+            </div>
+        </div>
+
+
+        <div>
+            <br/> <br/>
+        </div>
+
+        <form th:action="@{/thymeleaf/proizvoditel}" th:method="get">
+            <button class="btn btn-dark">Nazad kon proizvoditeli</button>
+        </form>
+
+        <form th:action="@{/thymeleaf/vozilo}" th:method="get">
+            <button class="btn btn-dark">Nazad kon vozila</button>
+        </form>
+
+    </div>
+</main>
+
+</body>
+</html>

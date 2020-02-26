@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:th='http://www.thymeleaf.org'>
+<head>
+    <title>Result</title>
+</head>
+<body>
+
+<div class="container">
+
+    <div style=" display: flex;
+                justify-content: space-around;
+                align-items: center;
+                min-height: 10vh;
+                background: rgb(73,79,82);
+                color: white;">
+
+        <a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none"><h3>Rent-a-car</h3></a>
+        <ul style="width: 59%;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        list-style: none;">
+
+            <li><a href="http://localhost:8080/thymeleaf/vozilo" style="color: white;text-decoration: none">Vozila</a></li>
+            <li><a href="http://localhost:8080/thymeleaf/kategorija" style="color: white;text-decoration: none">Kategorii</a></li>
+            <li><a href="http://localhost:8080/thymeleaf/proizvoditel" style="color: white;text-decoration: none">Proizvoditeli</a></li>
+            <li><a href="http://localhost:8080/thymeleaf/sopstvenik" style="color: white;text-decoration: none">Sopstvenici</a></li>
+            <li><a href="http://localhost:8080/thymeleaf/user" style="color: white;text-decoration: none">Users</a></li>
+            <span th:inline="text" th:if="${#httpServletRequest.remoteUser}">Hello, [[${#httpServletRequest.remoteUser}]]</span>
+            <form th:action="@{/logout}" method="post" style="display: inline-block">
+                <input th:if="${#httpServletRequest.remoteUser}" type="submit" value="Sign Out" class="btn btn-danger"/>
+            </form>
+        </ul>
+
+    </div>
+
+
+<h3 th:if='${error}' th:text='${error}' style='color: red;'></h3>
+<div th:unless='${error}'>
+    <h2 style='color: green;'>Naplatata e uspeshna! Vi blagodarime!</h2>
+    <div>Id.: <span th:text='${id}'/></div>
+    <div>Status: <span th:text='${status}'/></div>
+    <div>Charge id.: <span th:text='${chargeId}'/></div>
+    <div>Balance transaction id.: <span th:text='${balance_transaction}'/></div>
+    <div>Amount: <span th:text='${amount}'/></div>
+    <div>Description: <span th:text='${description}'/></div>
+</div>
+<br/>
+<a href="http://localhost:8080/thymeleaf/vozilo">Nazad kon vozila</a>
+</body>
+</html>

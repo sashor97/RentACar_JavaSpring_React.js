@@ -1,0 +1,51 @@
+POST http://localhost:8080/rezervacija/add
+Content-Type: application/json
+
+{"datumOd":"10/10/2010","denoviIznajmuvanje":10,"user":{"ime":"Petko","prezime":"Petkovski","adresa":"Kocani","godini":25,"komentari":[{"opis":"Super!","rejting":5.0,"id":1}],"id":1},"vozilo":{"model":"X6","imgUrl":"slika1","lokacija":"Skopje","cenaPoDen":100.0,"komentari":[{"opis":"Super!","rejting":5.0,"id":1},{"opis":"OK","rejting":3.4,"id":4}],"id":1},"id":4}
+
+
+
+
+###
+
+POST http://localhost:8080/kategorija/add
+Content-Type: application/json
+
+{"name": "Kombe"}
+
+###
+
+POST http://localhost:8080/user/add
+Content-Type: application/json
+
+{"ime": "Ivana" ,"prezime": "Markoska","adresa": "Kocani","godini": 22}
+
+###
+
+POST http://localhost:8080/proizvoditel/add
+Content-Type: application/json
+
+{"name": "Suzuki"}
+
+###
+
+POST http://localhost:8080/vozilo/add
+Content-Type: application/json
+
+{"model": "X2","imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMwGMCjT3s9En7kPfXohGB2DT9uqeIg4HySrvnCMPFR4ZCyh3e","lokacija": "Skopje","cenaPoDen": "1000","vozilo":{"id":1},}
+
+###
+
+
+POST http://localhost:8080/komentar/add
+Content-Type: application/json
+
+{"opis":"Okej","rejting":5,"user":{"ime": "Ivana" ,"prezime": "Markoska","adresa": "Kocani","godini": 22},"vozilo":{"id":1,"model": "X6","imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMwGMCjT3s9En7kPfXohGB2DT9uqeIg4HySrvnCMPFR4ZCyh3e","lokacija": "Skopje","cenaPoDen": "1000"}}
+###
+
+private long Id;
+
+
+    private String opis;
+
+    private double rejting;
